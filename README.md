@@ -21,3 +21,4 @@ O trabalho consiste em implementar um sistema de mapeamento de informações de 
 - **Command**: Utilizado para representar as operações que podem ser realizadas em um mapa de informações.
 
 ## Diagrama de Classes
+###
