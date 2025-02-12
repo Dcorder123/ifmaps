@@ -1,5 +1,6 @@
+## repositorio da disicplina de Padrões
 # IFMaps
-Trabalho de Padrões de projeto 
+
 
 ## Integrantes
 - [Daniel Barbosa Vasconcelos]
@@ -12,13 +13,25 @@ O trabalho consiste em implementar um sistema de mapeamento de informações de 
 ## Padrões Utilizados
 
 - **Singleton**: Utilizado para garantir que a classe de conexão com o banco de dados seja instanciada apenas uma vez.
+- **Facede**: Utilizado para fornecer uma interface simplificada para a criação de mapas de informações.
 - **Factory**: Utilizado para criar instâncias de classes de conexão com o banco de dados.
 - **Strategy**: Utilizado para definir algoritmos de mapeamento de informações.
 - **Observer**: Utilizado para notificar os observadores sobre a criação de um novo mapa de informações.
-- **Composite**: Utilizado para representar a estrutura de um mapa de informações.
-- **Decorator**: Utilizado para adicionar funcionalidades a um nó de um mapa de informações.
-- **Proxy**: Utilizado para controlar o acesso a um nó de um mapa de informações.
-- **Command**: Utilizado para representar as operações que podem ser realizadas em um mapa de informações.
+- **Proxy**: Utilizado para controlar o acesso a um objeto de conexão com o banco de dados.
 
 ## Diagrama de Classes
-###
+<img src="./static/img/diagrama_classe.png" alt="Diagrama de Classes" width="100%"/>
+
+## Diagrama de Casos de Uso
+<img src="./static/img/diagrama_uso.png" alt="Diagrama de Casos de Uso" width="100%"/>
+## Como executar
+
+1. Clone o repositório
+2. Instale as dependências
+```bash
+pip install -r requirements.txt
+```
+3. Execute o arquivo Facade.py
+```bash
+python Facade.py
+```

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IF Maps</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(34, 104, 34);
+            padding: 20px;
+            position: relative;
+        }
+        .logo {
+            width: 100px;
+            margin-right: 20px;
+        }
+        .header-text {
+            color: white;
+            font-size: 30px;
+            text-align: center;
+        }
+        .notification {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgb(214, 235, 27);
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .notification img {
+            width: 40px;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            display: none; /* Inicialmente escondido */
+        }
+        .notification-list {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background: white;
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 10px;
+            max-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .notification-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .notification-list li {
+            padding: 5px 10px;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+        }
+        .notification-list li:last-child {
+            border-bottom: none;
+        }
+        .title {
+            font-size: 35px;
+            font-weight: bold;
+            margin: 20px 0;
+            padding-top: 50px;
+            color: black;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+        }
+        .button {
+            background-color: rgb(110, 110, 110);
+            color: black;
+            font-weight: bold;
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: 2px solid black;
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+<script>
+    function fetchNotifications(callback) {
+        fetch('/notificacoes')
+            .then(response => response.json())
+            .then(data => {
+                var notificationList = document.getElementById('notification-list');
+                var notificationBadge = document.getElementById('notification-badge');
+
+                var notifications = data.notificacoes || [];
+
+                if (notifications.length > 0) {
+                    notificationBadge.style.display = 'flex';
+                    notificationBadge.innerText = notifications.length;
+
+                    var notificationItems = notifications.map(notification => `<li>${notification}</li>`).join('');
+                    notificationList.innerHTML = `<ul>${notificationItems}</ul>`;
+                } else {
+                    notificationBadge.style.display = 'none';
+                    notificationList.innerHTML = "<p>Sem novas notificações.</p>";
+                }
+
+                if (typeof callback === "function") {
+                    callback();  // 🔄 Executa a função de callback após carregar as notificações
+                }
+            })
+            .catch(error => console.error("Erro ao buscar notificações:", error));
+    }
+
+    function toggleNotificationList() {
+        var notificationList = document.getElementById('notification-list');
+
+        if (notificationList.style.display === 'block') {
+            notificationList.style.display = 'none';  // 🔴 Agora fecha corretamente ao clicar novamente
+        } else {
+            fetchNotifications(function() {
+                notificationList.style.display = 'block';
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.notification').addEventListener('click', function() {
+            toggleNotificationList();
+        });
+
+        // 🔄 Buscar notificações automaticamente ao carregar a página
+        fetchNotifications();
+
+        // 🔄 Atualizar notificações a cada 30 segundos
+        setInterval(fetchNotifications, 30000);
+    });
+
+    // 🔴 Fecha a lista de notificações se o usuário clicar fora dela
+    document.addEventListener('click', function(event) {
+        var notificationList = document.getElementById('notification-list');
+        var notificationIcon = document.querySelector('.notification');
+
+        if (!notificationList.contains(event.target) && !notificationIcon.contains(event.target)) {
+            notificationList.style.display = 'none';
+        }
+    });
+</script>
+
+</head>
+<body style="background-color: rgb(255, 255, 255);">
+    <div class="header">
+        <img class="logo" src="../static/img/ifpb_logo_1.png" alt="Logo IFPB">
+        <div class="header-text" style="text-align: left;">
+            <b>Instituto Federal da Paraíba <br>
+                IFPB <br>
+                Ministério da Educação</b>
+        </div>
+        <div class="notification" onclick="toggleNotificationList()">
+            <img src="../static/img/bell-icon.png" alt="Notificação">
+            <div id="notification-badge" class="notification-badge"></div>
+        </div>
+        <div id="notification-list" class="notification-list"></div>
+    </div>
+    <div class="title">BEM VINDO AO IF MAPS, SELECIONE UMA OPÇÃO</div>
+    <div class="buttons">
+        <button class="button" onclick="window.location.href='/eventos'">EVENTOS</button>
+        <button class="button" onclick="window.location.href='/mapa'">LOCALIZAR SALA</button>
+    </div>
+</body>
+</html>

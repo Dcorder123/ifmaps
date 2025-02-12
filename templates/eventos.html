@@ -1,0 +1,37 @@
+<!-- filepath: /c:/Users/vasco/Codigos/ifmaps-new/IFMAPS_NEW/templates/eventos.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div style="text-align: right; padding: 5px; font-size: 18px;">
+        <button class="button login-button" onclick="window.location.href='/login'">Login</button>
+    </div>
+
+    <h1 class="titulo-evento">Eventos</h1>
+    
+    <ul class="lista-eventos">
+        {% for evento in eventos %}
+            <li class="evento-item">
+                <a href="{{ url_for('routes.detalhes_evento', evento_id=evento.id) }}">
+                    <div class="evento-conteudo">
+                        <span>{{ evento.titulo }}</span>
+                        {% if evento.imagem %}
+                        <img src="{{ url_for('static', filename='img/eventos/' ~ evento.imagem) }}" alt="{{ evento.titulo }}" class="evento-imagem">
+                        {% endif %}
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <div class="button-container">
+        <button class="back-button" onclick="window.history.back()">↩ Voltar</button>
+    </div>
+  
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!-- filepath: /c:/Users/vasco/Codigos/ifmaps-new/IFMAPS_NEW/templates/evento.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ evento.titulo }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="button-container">
+        <button class="back-button" onclick="window.history.back()">↩ Voltar</button>
+    </div>
+    <div class="evento">
+        <h1 class="titulo-evento">{{ evento.titulo }}</h1>
+        <p class="descricao">{{ evento.descricao }}</p>
+        {% if evento.imagem %}
+        <img src="{{ url_for('static', filename='img/eventos/' ~ evento.imagem) }}" alt="{{ evento.titulo }}">
+        {% endif %}
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="encontrar-local" onclick="window.location.href='/mapa'">📍 Encontrar Local</button>
+        </div>
+    </div>
+</body>
+</html>
